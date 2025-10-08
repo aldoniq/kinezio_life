@@ -2,7 +2,13 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --secondary: #64748b;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
 }
 
 @theme inline {
@@ -22,5 +28,146 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Принудительно устанавливаем черный текст */
+* {
+  color: inherit;
+}
+
+.text-gray-900, .text-gray-800, .text-gray-700, .text-gray-600, .text-gray-500 {
+  color: #1f2937 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #111827 !important;
+}
+
+p, span, div {
+  color: #374151 !important;
+}
+
+/* Исключения для цветного текста */
+.text-blue-600, .text-blue-700, .text-blue-800 {
+  color: #2563eb !important;
+}
+
+.text-green-600, .text-green-700, .text-green-800 {
+  color: #059669 !important;
+}
+
+.text-red-600, .text-red-700, .text-red-800 {
+  color: #dc2626 !important;
+}
+
+.text-yellow-600, .text-yellow-700, .text-yellow-800 {
+  color: #d97706 !important;
+}
+
+.text-purple-600, .text-purple-700, .text-purple-800 {
+  color: #9333ea !important;
+}
+
+.text-white {
+  color: #ffffff !important;
+}
+
+/* Утилитарные классы */
+.btn {
+  @apply px-6 py-3 rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 hover:bg-gray-200 focus:ring-gray-500;
+  color: #374151 !important;
+}
+
+.btn-outline {
+  @apply border-2 border-blue-600 hover:bg-blue-600 focus:ring-blue-500;
+  color: #2563eb !important;
+}
+
+.btn-outline:hover {
+  color: #ffffff !important;
+}
+
+.card {
+  @apply bg-white rounded-2xl shadow-sm border border-gray-100 p-6;
+}
+
+.input {
+  @apply w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-colors;
+  color: #111827 !important;
+  background-color: #ffffff;
+}
+
+.label {
+  @apply block text-sm font-medium mb-2;
+  color: #374151 !important;
+}
+
+/* Анимации */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Кастомные стили для времени */
+.time-slot {
+  @apply px-4 py-3 rounded-xl border text-center font-medium transition-all cursor-pointer;
+}
+
+.time-slot.available {
+  @apply border-gray-200 hover:border-blue-500 hover:bg-blue-50;
+  color: #374151 !important;
+}
+
+.time-slot.unavailable {
+  @apply border-gray-100 bg-gray-50 cursor-not-allowed;
+  color: #9ca3af !important;
+}
+
+.time-slot.selected {
+  @apply border-blue-500 bg-blue-500 text-white;
+}
+
+/* Кастомные стили для услуг */
+.service-card {
+  @apply p-4 rounded-xl border-2 cursor-pointer transition-all;
+}
+
+.service-card.available {
+  @apply border-gray-200 hover:border-blue-500 hover:shadow-sm;
+}
+
+.service-card * {
+  color: #374151 !important;
+}
+
+.service-card.selected {
+  @apply border-blue-500 bg-blue-50;
 }
