@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  kinezio_life:
+    build: .
+    container_name: kinezio_life
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - JWT_SECRET=${JWT_SECRET}
+    volumes:
+      # Монтируем базу данных для сохранения данных
+      - ./data:/app/data
+      # Монтируем логи
+      - ./logs:/app/logs
+    networks:
+      - kinezio_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx reverse proxy (опционально)
+  nginx:
+    image: nginx:alpine
+    container_name: kinezio_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - kinezio_life
+    networks:
+      - kinezio_network
+
+networks:
+  kinezio_network:
+    driver: bridge
+
+volumes:
+  kinezio_data:
+    driver: local
