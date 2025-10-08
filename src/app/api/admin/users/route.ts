@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const users = adminDB.getAll();
+    const users = await adminDB.getAll();
     return NextResponse.json({ users }, { status: 200 });
   } catch (error) {
     console.error('Ошибка при получении пользователей:', error);
@@ -55,7 +55,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const updated = adminDB.updateStatus(userId, isActive);
+    const updated = await adminDB.updateStatus(userId, isActive);
     
     if (!updated) {
       return NextResponse.json(

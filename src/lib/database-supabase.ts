@@ -25,7 +25,7 @@ export async function initializeDatabase() {
     console.log('Инициализация базы данных...');
     
     // Проверяем, существуют ли таблицы, пытаясь получить данные
-    const { data: appointmentsData, error: appointmentsError } = await supabase
+    const { error: appointmentsError } = await supabase
       .from('appointments')
       .select('id')
       .limit(1);
@@ -36,7 +36,7 @@ export async function initializeDatabase() {
       return;
     }
 
-    const { data: adminsData, error: adminsError } = await supabase
+    const { error: adminsError } = await supabase
       .from('admins')
       .select('id')
       .limit(1);
@@ -59,50 +59,50 @@ export async function initializeDatabase() {
 }
 
 // Функция для преобразования записи из БД в TypeScript объект
-function mapDbToAppointment(row: any): Appointment {
+function mapDbToAppointment(row: Record<string, unknown>): Appointment {
   return {
-    id: row.id,
-    patientName: row.patient_name,
-    patientPhone: row.patient_phone,
-    patientEmail: row.patient_email || undefined,
-    date: row.date,
-    time: row.time,
+    id: row.id as string,
+    patientName: row.patient_name as string,
+    patientPhone: row.patient_phone as string,
+    patientEmail: (row.patient_email as string) || undefined,
+    date: row.date as string,
+    time: row.time as string,
     serviceType: {
-      id: row.service_id,
-      name: row.service_name,
-      description: row.service_description,
-      duration: row.service_duration,
-      price: row.service_price,
-      icon: row.service_icon
+      id: row.service_id as string,
+      name: row.service_name as string,
+      description: row.service_description as string,
+      duration: row.service_duration as number,
+      price: row.service_price as number,
+      icon: row.service_icon as string
     },
-    problemDescription: row.problem_description || undefined,
-    status: row.status,
-    createdAt: row.created_at,
+    problemDescription: (row.problem_description as string) || undefined,
+    status: row.status as 'pending' | 'confirmed' | 'completed' | 'cancelled',
+    createdAt: row.created_at as string,
     patientAttended: row.patient_attended !== null ? Boolean(row.patient_attended) : undefined,
-    doctorNotes: row.doctor_notes || undefined,
-    completedAt: row.completed_at || undefined
+    doctorNotes: (row.doctor_notes as string) || undefined,
+    completedAt: (row.completed_at as string) || undefined
   };
 }
 
 // Функция для преобразования админа из БД в TypeScript объект
-function mapDbToAdmin(row: any): Admin {
+function mapDbToAdmin(row: Record<string, unknown>): Admin {
   return {
-    id: row.id,
-    username: row.username,
-    email: row.email,
-    role: row.role,
-    fullName: row.full_name,
+    id: row.id as number,
+    username: row.username as string,
+    email: row.email as string,
+    role: row.role as 'super_admin' | 'admin' | 'viewer',
+    fullName: row.full_name as string,
     isActive: Boolean(row.is_active),
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
-    lastLogin: row.last_login || undefined
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+    lastLogin: (row.last_login as string) || undefined
   };
 }
 
-function mapDbToAdminWithPassword(row: any): AdminWithPassword {
+function mapDbToAdminWithPassword(row: Record<string, unknown>): AdminWithPassword {
   return {
     ...mapDbToAdmin(row),
-    passwordHash: row.password_hash
+    passwordHash: row.password_hash as string
   };
 }
 
@@ -220,7 +220,7 @@ export const appointmentDB = {
       if (!appointment) return null;
 
       const now = new Date().toISOString();
-      const updateFields: any = { updated_at: now };
+      const updateFields: Record<string, unknown> = { updated_at: now };
       
       if (updateData.patientAttended !== undefined) {
         updateFields.patient_attended = updateData.patientAttended;
@@ -416,6 +416,7 @@ export const adminDB = {
       await this.updateLastLogin(admin.id);
 
       // Возвращаем админа без пароля
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { passwordHash: _, ...adminWithoutPassword } = admin;
       return adminWithoutPassword;
     } catch (error) {

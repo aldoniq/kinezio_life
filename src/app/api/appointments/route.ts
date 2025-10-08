@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const appointments = appointmentDB.getAll();
+    const appointments = await appointmentDB.getAll();
     return NextResponse.json({ appointments }, { status: 200 });
   } catch (error) {
     console.error('Ошибка при получении записей:', error);
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Проверка, не занято ли время
-    if (appointmentDB.isTimeSlotBooked(date, time)) {
+    if (await appointmentDB.isTimeSlotBooked(date, time)) {
       return NextResponse.json(
         { error: 'Данное время уже занято' },
         { status: 409 }
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Сохранение в базу данных
-    const saved = appointmentDB.create(newAppointment);
+    const saved = await appointmentDB.create(newAppointment);
     
     if (!saved) {
       return NextResponse.json(
@@ -115,7 +115,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const appointment = appointmentDB.getById(id);
+    const appointment = await appointmentDB.getById(id);
     
     if (!appointment) {
       return NextResponse.json(
@@ -140,7 +140,7 @@ export async function PATCH(request: NextRequest) {
       updateData.status = status;
     }
 
-    const updated = appointmentDB.update(id, updateData);
+    const updated = await appointmentDB.update(id, updateData);
     
     if (!updated) {
       return NextResponse.json(
@@ -184,7 +184,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const appointment = appointmentDB.getById(appointmentId);
+    const appointment = await appointmentDB.getById(appointmentId);
     
     if (!appointment) {
       return NextResponse.json(
@@ -194,7 +194,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Отмечаем как отмененную
-    const updated = appointmentDB.updateStatus(appointmentId, 'cancelled');
+    const updated = await appointmentDB.updateStatus(appointmentId, 'cancelled');
     
     if (!updated) {
       return NextResponse.json(

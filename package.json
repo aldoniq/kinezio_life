@@ -9,11 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.74.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/better-sqlite3": "^7.6.13",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node-telegram-bot-api": "^0.64.10",
-    "@supabase/supabase-js": "^2.39.0",
     "bcryptjs": "^3.0.2",
     "better-sqlite3": "^12.2.0",
     "jsonwebtoken": "^9.0.2",

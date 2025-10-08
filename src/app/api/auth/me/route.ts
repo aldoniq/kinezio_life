@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Получаем актуальную информацию о пользователе из БД
-    const admin = adminDB.getByUsername(user.username);
+    const admin = await adminDB.getByUsername(user.username);
     
     if (!admin || !admin.isActive) {
       return NextResponse.json(

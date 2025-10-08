@@ -8,7 +8,7 @@ export async function GET() {
     const baseSchedule = generateSchedule();
     
     // Получаем все активные записи
-    const activeAppointments = appointmentDB.getActive();
+    const activeAppointments = await appointmentDB.getActive();
     
     // Отмечаем занятые слоты как недоступные
     const scheduleWithAvailability = baseSchedule.map(day => ({
