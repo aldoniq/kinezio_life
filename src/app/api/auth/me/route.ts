@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth';
-import { adminDB } from '@/lib/database';
+import { adminDB } from '@/lib/database-supabase';
 
 export async function GET(request: NextRequest) {
   try {

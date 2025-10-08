@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDB } from '@/lib/database';
+import { adminDB } from '@/lib/database-supabase';
 import { createToken } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {

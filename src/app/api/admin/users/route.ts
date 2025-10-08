@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDB } from '@/lib/database';
+import { adminDB } from '@/lib/database-supabase';
 import { requireRole } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {

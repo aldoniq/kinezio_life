@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { Admin } from '@/lib/database';
+import { Admin } from '@/lib/database-supabase';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret';
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Appointment } from '@/types';
-import { appointmentDB } from '@/lib/database';
+import { appointmentDB } from '@/lib/database-supabase';
 import { notifyNewAppointment, notifyCancelledAppointment } from '@/lib/telegram';
 import { requireRole } from '@/lib/auth';
 

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { generateSchedule } from '@/data/doctor';
-import { appointmentDB } from '@/lib/database';
+import { appointmentDB } from '@/lib/database-supabase';
 
 export async function GET() {
   try {
