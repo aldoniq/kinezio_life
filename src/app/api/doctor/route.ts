@@ -7,7 +7,7 @@ export async function GET() {
       doctor: doctorInfo,
       services: serviceTypes 
     }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Ошибка при получении информации о враче' },
       { status: 500 }

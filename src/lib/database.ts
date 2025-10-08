@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import bcrypt from 'bcryptjs';
-import { Appointment, ServiceType } from '@/types';
+import { Appointment } from '@/types';
 
 const dbPath = path.join(process.cwd(), 'appointments.db');
 const db = new Database(dbPath);
@@ -89,69 +89,69 @@ export interface AdminWithPassword extends Admin {
 }
 
 // Функция для преобразования записи из БД в TypeScript объект
-function mapDbToAppointment(row: any): Appointment {
+function mapDbToAppointment(row: Record<string, unknown>): Appointment {
   return {
-    id: row.id,
-    patientName: row.patient_name,
-    patientPhone: row.patient_phone,
-    patientEmail: row.patient_email || undefined,
-    date: row.date,
-    time: row.time,
+    id: row.id as string,
+    patientName: row.patient_name as string,
+    patientPhone: row.patient_phone as string,
+    patientEmail: (row.patient_email as string) || undefined,
+    date: row.date as string,
+    time: row.time as string,
     serviceType: {
-      id: row.service_id,
-      name: row.service_name,
-      description: row.service_description,
-      duration: row.service_duration,
-      price: row.service_price,
-      icon: row.service_icon
+      id: row.service_id as string,
+      name: row.service_name as string,
+      description: row.service_description as string,
+      duration: row.service_duration as number,
+      price: row.service_price as number,
+      icon: row.service_icon as string
     },
-    problemDescription: row.problem_description || undefined,
-    status: row.status,
-    createdAt: row.created_at,
+    problemDescription: (row.problem_description as string) || undefined,
+    status: row.status as 'pending' | 'confirmed' | 'completed' | 'cancelled',
+    createdAt: row.created_at as string,
     patientAttended: row.patient_attended !== null ? Boolean(row.patient_attended) : undefined,
-    doctorNotes: row.doctor_notes || undefined,
-    completedAt: row.completed_at || undefined
+    doctorNotes: (row.doctor_notes as string) || undefined,
+    completedAt: (row.completed_at as string) || undefined
   };
 }
 
 // Функция для преобразования админа из БД в TypeScript объект
-function mapDbToAdmin(row: any): Admin {
+function mapDbToAdmin(row: Record<string, unknown>): Admin {
   return {
-    id: row.id,
-    username: row.username,
-    email: row.email,
-    role: row.role,
-    fullName: row.full_name,
+    id: row.id as number,
+    username: row.username as string,
+    email: row.email as string,
+    role: row.role as 'super_admin' | 'admin' | 'viewer',
+    fullName: row.full_name as string,
     isActive: Boolean(row.is_active),
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
-    lastLogin: row.last_login || undefined
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+    lastLogin: (row.last_login as string) || undefined
   };
 }
 
-function mapDbToAdminWithPassword(row: any): AdminWithPassword {
+function mapDbToAdminWithPassword(row: Record<string, unknown>): AdminWithPassword {
   return {
     ...mapDbToAdmin(row),
-    passwordHash: row.password_hash
+    passwordHash: row.password_hash as string
   };
 }
 
 export const appointmentDB = {
   // Получить все записи
   getAll(): Appointment[] {
-    const rows = getAllAppointments.all();
+    const rows = getAllAppointments.all() as Record<string, unknown>[];
     return rows.map(mapDbToAppointment);
   },
 
   // Получить активные записи (не отмененные)
   getActive(): Appointment[] {
-    const rows = getActiveAppointments.all('cancelled');
+    const rows = getActiveAppointments.all('cancelled') as Record<string, unknown>[];
     return rows.map(mapDbToAppointment);
   },
 
   // Получить запись по ID
   getById(id: string): Appointment | null {
-    const row = getAppointmentById.get(id);
+    const row = getAppointmentById.get(id) as Record<string, unknown> | undefined;
     return row ? mapDbToAppointment(row) : null;
   },
 
@@ -205,7 +205,7 @@ export const appointmentDB = {
       const now = new Date().toISOString();
       
       // Обновляем только переданные поля
-      const updatedAppointment = { ...appointment, ...updateData, updatedAt: now };
+      // const updatedAppointment = { ...appointment, ...updateData, updatedAt: now };
       
       // Подготавливаем SQL запрос динамически
       const fields = [];
@@ -277,19 +277,19 @@ export const adminDB = {
 
   // Получить админа по username
   getByUsername(username: string): AdminWithPassword | null {
-    const row = getAdminByUsername.get(username);
+    const row = getAdminByUsername.get(username) as Record<string, unknown> | undefined;
     return row ? mapDbToAdminWithPassword(row) : null;
   },
 
   // Получить админа по email
   getByEmail(email: string): AdminWithPassword | null {
-    const row = getAdminByEmail.get(email);
+    const row = getAdminByEmail.get(email) as Record<string, unknown> | undefined;
     return row ? mapDbToAdminWithPassword(row) : null;
   },
 
   // Получить всех админов
   getAll(): Admin[] {
-    const rows = getAllAdmins.all();
+    const rows = getAllAdmins.all() as Record<string, unknown>[];
     return rows.map(mapDbToAdmin);
   },
 
@@ -334,7 +334,8 @@ export const adminDB = {
       this.updateLastLogin(admin.id);
 
       // Возвращаем админа без пароля
-      const { passwordHash, ...adminWithoutPassword } = admin;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { passwordHash: _, ...adminWithoutPassword } = admin;
       return adminWithoutPassword;
     } catch (error) {
       console.error('Ошибка при проверке учетных данных:', error);
