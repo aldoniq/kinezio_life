@@ -17,11 +17,10 @@ export default function AppointmentPage() {
   const [selectedService, setSelectedService] = useState<ServiceType | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
-  const [patientInfo, setPatientInfo] = useState<PatientInfo>({
-    name: '',
-    phone: '',
-    email: '',
-    problemDescription: ''
+  const [patientInfo, setPatientInfo] = useState<PatientInfo>({ 
+    name: '', 
+    phone: '', 
+    problemDescription: '' 
   });
 
   useEffect(() => {
@@ -83,7 +82,6 @@ export default function AppointmentPage() {
         body: JSON.stringify({
           patientName: patientInfo.name,
           patientPhone: patientInfo.phone,
-          patientEmail: patientInfo.email,
           date: selectedDate,
           time: selectedTime,
           serviceType: selectedService,
@@ -102,7 +100,7 @@ export default function AppointmentPage() {
         setSelectedService(null);
         setSelectedDate('');
         setSelectedTime('');
-        setPatientInfo({ name: '', phone: '', email: '', problemDescription: '' });
+        setPatientInfo({ name: '', phone: '', problemDescription: '' });
         // Перенаправляем на главную страницу
         window.location.href = '/';
       } else {
@@ -377,16 +375,6 @@ function PatientInfoForm({ initialData, onSubmit }: {
           />
         </div>
 
-        <div>
-          <label className="label">Email (необязательно)</label>
-          <input
-            type="email"
-            className="input"
-            value={formData.email}
-            onChange={(e) => setFormData({...formData, email: e.target.value})}
-            placeholder="your@email.com"
-          />
-        </div>
 
         <div>
           <label className="label">Опишите проблему (необязательно)</label>
@@ -480,12 +468,6 @@ function ConfirmationStep({ service, date, time, patientInfo, submitting, onSubm
             <span className="text-gray-600">Телефон:</span>
             <span className="font-medium">{patientInfo.phone}</span>
           </div>
-          {patientInfo.email && (
-            <div className="flex justify-between">
-              <span className="text-gray-600">Email:</span>
-              <span className="font-medium">{patientInfo.email}</span>
-            </div>
-          )}
           {patientInfo.problemDescription && (
             <div>
               <span className="text-gray-600 block mb-1">Описание проблемы:</span>

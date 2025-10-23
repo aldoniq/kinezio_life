@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { patientName, patientPhone, patientEmail, date, time, serviceType, problemDescription } = body;
+    const { patientName, patientPhone, date, time, serviceType, problemDescription } = body;
 
     // Валидация
     if (!patientName || !patientPhone || !date || !time || !serviceType) {
@@ -53,7 +53,6 @@ export async function POST(request: NextRequest) {
       id: `apt-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       patientName,
       patientPhone,
-      patientEmail: patientEmail || undefined,
       date,
       time,
       serviceType,

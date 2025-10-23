@@ -61,7 +61,6 @@ export async function notifyNewAppointment(appointment: Appointment): Promise<bo
 
 👤 <b>Пациент:</b> ${appointment.patientName}
 📞 <b>Телефон:</b> ${appointment.patientPhone}
-${appointment.patientEmail ? `📧 <b>Email:</b> ${appointment.patientEmail}\n` : ''}
 
 🏥 <b>Услуга:</b> ${appointment.serviceType.name}
 📝 <b>Описание:</b> ${appointment.serviceType.description}

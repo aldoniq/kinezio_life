@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS appointments (
   id TEXT PRIMARY KEY,
   patient_name TEXT NOT NULL,
   patient_phone TEXT NOT NULL,
-  patient_email TEXT,
   date TEXT NOT NULL,
   time TEXT NOT NULL,
   service_id TEXT NOT NULL,

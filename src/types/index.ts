@@ -37,7 +37,6 @@ export interface Appointment {
   id: string;
   patientName: string;
   patientPhone: string;
-  patientEmail?: string;
   date: string;
   time: string;
   serviceType: ServiceType;
@@ -53,6 +52,5 @@ export interface Appointment {
 export interface PatientInfo {
   name: string;
   phone: string;
-  email?: string;
   problemDescription?: string;
 } 

@@ -191,15 +191,11 @@ export default function HomePage() {
           <div className="space-y-3 text-sm text-gray-600">
             <div className="flex items-center space-x-3">
               <span>📱</span>
-              <span>+7 (777) 123-45-67</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <span>📧</span>
-              <span>dr.sailaubek@example.com</span>
+              <span>+7 747 297 80 70</span>
             </div>
             <div className="flex items-center space-x-3">
               <span>📍</span>
-              <span>г. Алматы, ул. Абая 123, офис 45</span>
+              <span>г. Астана, ул. Бокейхана 27/1 (студия Авокадо)</span>
             </div>
           </div>
         </div>

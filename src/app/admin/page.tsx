@@ -601,12 +601,6 @@ export default function AdminPage() {
                                <p className="text-sm text-gray-900">{apt.patientPhone}</p>
                              </div>
 
-                             {apt.patientEmail && (
-                               <div>
-                                 <span className="text-xs text-gray-500">Email:</span>
-                                 <p className="text-sm text-gray-900">{apt.patientEmail}</p>
-                               </div>
-                             )}
 
                              {apt.problemDescription && (
                                <div>
@@ -746,11 +740,6 @@ export default function AdminPage() {
                             <p className="text-gray-600">
                               <span className="font-medium">Телефон:</span> {appointment.patientPhone}
                             </p>
-                            {appointment.patientEmail && (
-                              <p className="text-gray-600">
-                                <span className="font-medium">Email:</span> {appointment.patientEmail}
-                              </p>
-                            )}
                             <p className="text-gray-600">
                               <span className="font-medium">Длительность:</span> {appointment.serviceType.duration} мин
                             </p>
