@@ -64,7 +64,6 @@ function mapDbToAppointment(row: Record<string, unknown>): Appointment {
     id: row.id as string,
     patientName: row.patient_name as string,
     patientPhone: row.patient_phone as string,
-    patientEmail: (row.patient_email as string) || undefined,
     date: row.date as string,
     time: row.time as string,
     serviceType: {
@@ -165,7 +164,6 @@ export const appointmentDB = {
           id: appointment.id,
           patient_name: appointment.patientName,
           patient_phone: appointment.patientPhone,
-          patient_email: appointment.patientEmail || null,
           date: appointment.date,
           time: appointment.time,
           service_id: appointment.serviceType.id,
