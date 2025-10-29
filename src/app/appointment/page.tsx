@@ -290,8 +290,8 @@ function DateTimeSelection({ schedule, selectedService, onSelect }: {
       {/* Date Selection */}
       <div>
         <h3 className="font-medium text-gray-900 mb-3">Дата</h3>
-        <div className="grid grid-cols-3 gap-3">
-          {availableDates.slice(0, 9).map((day) => (
+        <div className="grid grid-cols-3 gap-2">
+          {availableDates.slice(0, 15).map((day) => (
             <button
               key={day.date}
               onClick={() => handleDateSelect(day.date)}
@@ -312,7 +312,7 @@ function DateTimeSelection({ schedule, selectedService, onSelect }: {
       {selectedDate && selectedDaySchedule && (
         <div>
           <h3 className="font-medium text-gray-900 mb-3">Время</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-2">
             {selectedDaySchedule.timeSlots
               .filter(slot => slot.available)
               .map((slot) => (

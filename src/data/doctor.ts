@@ -43,27 +43,28 @@ export const generateSchedule = (): AppointmentDate[] => {
   const today = new Date();
   const daysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
   
-  // Рабочие часы: 9:00 - 19:00, каждые 2 часа
+  // Рабочие часы: 9:00 - 21:00, каждые 2 часа
   const timeSlots = [
-    '09:00', '11:00', '13:00', '15:00', '17:00', '19:00'
+    '09:00', '11:00', '13:00', '15:00', '17:00', '19:00', '21:00'
   ];
 
-  for (let i = 1; i <= 14; i++) { // Начинаем с завтра
+  for (let i = 1; i <= 15; i++) { // Начинаем с завтра
     const currentDate = new Date(today);
     currentDate.setDate(today.getDate() + i);
     
     const dayOfWeek = currentDate.getDay();
-    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Воскресенье или суббота
+    // Теперь все дни доступны для записи
+    const isAvailable = true;
     
     schedule.push({
       date: currentDate.toISOString().split('T')[0],
       dayOfWeek: daysOfWeek[dayOfWeek],
       dayNumber: currentDate.getDate(),
-      available: !isWeekend,
+      available: isAvailable,
       timeSlots: timeSlots.map((time) => ({
         id: `${currentDate.toISOString().split('T')[0]}-${time}`,
         time,
-        available: !isWeekend, // Все слоты доступны по умолчанию, но будут проверяться через API
+        available: isAvailable, // Все слоты доступны по умолчанию, но будут проверяться через API
       })),
     });
   }
